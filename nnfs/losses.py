@@ -26,6 +26,19 @@ def Loss_CategoricalCrossEntropy(Loss):
         negative_log_likelihoods = -np.log(correct_confidences)
 
         return negative_log_likelihoods
+    
+    def backward(self,dvalues, y_true):
+        
+        samples = len(dvalues)
+
+        labels = len(samples[0])
+
+        if y_true.shape == 1:
+            y_true = np.eye(labels)[y_true]
+            
+        self.dinputs = -y_true / dvalues
+
+        self.dinputs = self.dinputs / samples
 
                 
 
