@@ -6,6 +6,7 @@ class Layer_Dense:
         self.biases = np.zeros((1,n_neurons))
 
     def forward(self,inputs):
+        self.inputs = inputs
         self.output = np.dot(inputs , self.weights) +  self.biases
 
     def backward(self,dvalues):
@@ -14,4 +15,3 @@ class Layer_Dense:
 
         self.dinputs = np.dot(dvalues , self.weights.T)
     
-
