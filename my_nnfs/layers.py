@@ -36,3 +36,16 @@ class Layer_Dense:
 
         self.dinputs = np.dot(dvalues, self.weights.T)
     
+class Layer_Dropout():
+
+        def __init__(self,rate):
+            #rate of 0.1 means success rate of 0.9 i.e 90% of neurons pass through
+            self.rate = 1-rate
+
+        def forward(self,inputs):
+            self.inputs = inputs 
+            self.binary_mask = np.random.binomial(1,self.rate , size = inputs.shape) / self.rate
+            self.output = inputs * self.binary_mask
+
+        def backward(self,dvalues):
+            self.dinputs = dvalues * self.binary_mask
