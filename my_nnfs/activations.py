@@ -29,5 +29,13 @@ class Activation_Softmax:
 
             self.dinputs[index] = np.dot(jacobian_matrix,single_dvalues)
 
+class Activation_Sigmoid: 
+    def forward(self,inputs):
+        self.inputs = inputs
+        clipped_inputs = np.clip(inputs, -500, 500)
+        self.output = 1 / (1 + np.exp(-clipped_inputs))
+
+    def backward(self,dvalues):
+        self.dinputs = dvalues * self.output * (1 - self.output) 
 
 

@@ -84,3 +84,20 @@ class Activation_Softmax_Loss_CategoricalCrossentropy(Loss):
         self.dinputs[range(samples) , y_true] -=1
 
         self.dinputs = self.dinputs / samples
+
+class Loss_BinaryCrossEntropy(Loss):
+    def forward(self, y_pred, y_true):
+        # Clip to prevent log(0)
+        y_pred_clipped = np.clip(y_pred, 1e-7, 1 - 1e-7)
+        sample_losses = -(y_true * np.log(y_pred_clipped) + (1 - y_true) * np.log(1 - y_pred_clipped))
+        return np.mean(sample_losses)
+
+    def backward(self,dvalues,y_true):
+        samples = len(dvalues)
+        outputs = len(dvalues[0])
+
+        clipped_values = np.clip(dvalues , 1e-7 , 1-1e-7)
+        self.dinputs = -(y_true / clipped_values - (1-y_true) / (1-clipped_values)) / outputs
+        self.dinputs = self.dinputs / samples
+
+
