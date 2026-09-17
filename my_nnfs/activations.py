@@ -38,4 +38,11 @@ class Activation_Sigmoid:
     def backward(self,dvalues):
         self.dinputs = dvalues * self.output * (1 - self.output) 
 
+class Activation_Linear:
+    def forward(self,inputs):
+        self.inputs = inputs 
+        self.output = inputs 
+
+    def backward(self,dvalues):
+        self.dinputs = dvalues.copy()
 
